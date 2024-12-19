@@ -36,3 +36,23 @@ priceComplete = False
 
 #반품 여부
 existReturn = False
+
+returnCount = 0 
+
+# 극소 상자
+box_tiny = 0  # 가장 작은 크기의 상자
+
+# 소형 상자
+box_small = 0  # 소형 크기의 상자
+
+# 중형 상자
+box_medium = 0  # 중간 크기의 상자
+
+# 대형1 상자
+box_large1 = 0  # 대형 크기(1단계)
+
+# 대형2 상자
+box_large2 = 0  # 대형 크기(2단계)
+
+# 이형 상자
+box_irregular = 0  # 비표준 모양 또는 특수 크기의 상자

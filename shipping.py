@@ -146,6 +146,22 @@ def priceChange():
         if priceFound:
             config.price = priceList_ws.cell(row=config.priceRow, column=config.priceColumn).value
             config.new_ws.cell(row=row_idx, column=8).value = config.price
+            # config.priceColumn 값(숫자)을 알파벳으로 변환
+            price_column_letter = op.utils.get_column_letter(config.priceColumn)
+
+            # price_column_letter 값에 따라 상자 크기 업데이트
+            if price_column_letter in ["C", "D"]:
+                config.box_tiny += 1  # 극소
+            elif price_column_letter in ["E", "I", "J"]:
+                config.box_small += 1  # 소형
+            elif price_column_letter in ["F", "K", "N"]:
+                config.box_medium += 1  # 중형
+            elif price_column_letter == "O":
+                config.box_large1 += 1  # 대형1
+            elif price_column_letter == "P":
+                config.box_large2 += 1  # 대형2
+            else:
+                config.box_irregular += 1  # 이형
         else:
             config.price = 9999
             config.new_return_ws.cell(row=row_idx, column=7).value = config.price
@@ -175,31 +191,40 @@ def priceChangereturn():
         
     row_idx = 2  # 시작 행 (2번째 행, 첫 번째 데이터 행)
     while True:
-        # e_value - 무게, f_value - 부피 (두 번째 행, 즉 첫 번째 데이터 행)
-        e_value = config.new_return_ws.cell(row=row_idx, column=5).value  # E열 (5번째 열) 값
-        f_value = config.new_return_ws.cell(row=row_idx, column=6).value  # F열 (6번째 열) 값
+        # 반품값에 따라 금액 재정의
+        priceFound = False
+        returnPrice = config.new_return_ws.cell(row=row_idx, column=7).value
+        # None 값이 아닌 경우에만 처리
+        if returnPrice is not None:
+            if returnPrice in [1830, 1950]:
+                config.priceColumn = 3
+                config.box_tiny += 1  # 극소
+                priceFound = True
+            elif returnPrice == 2400:
+                config.priceColumn = 5
+                config.box_small += 1  # 소형
+                priceFound = True
+            elif returnPrice == 3100:
+                config.priceColumn = 6
+                config.box_medium += 1  # 중형
+                priceFound = True
+            elif returnPrice > 3100:
+                config.priceColumn = 7
+                config.box_irregular += 1  # 이형
+                priceFound = True
         # 값이 없으면 종료
-        if e_value is None and f_value is None:
+        if returnPrice is None:
             print("반품 실수령액 작업 완료")
             break
-
-        # priceList_ws에서 e_value와 f_value를 찾기
-        priceFound = False
-        for col_idx, cell in enumerate(priceList_ws[1], start=1):  # 첫 번째 행 반복
-            if cell.value == e_value:  # E열 값과 일치하는 열 찾기
-                # 2행의 해당 열에서 F열 값 비교
-                if priceList_ws.cell(row=2, column=col_idx).value == f_value:
-                    priceFound = True
-                    config.priceColumn = col_idx
-                    break
                 
         if priceFound:
             config.price = priceList_ws.cell(row=config.priceRow, column=config.priceColumn).value
             config.new_return_ws.cell(row=row_idx, column=7).value = config.price
+            config.returnCount += 1
         else:
             config.price = 9999
             config.new_return_ws.cell(row=row_idx, column=7).value = config.price
-            print(f"{row_idx}행의 무게 값 '{e_value}'와 부피 값 '{f_value}'를 모두 만족하는 값이 없습니다.")
+        
         row_idx += 1
     
     # E열과 F열 삭제 (E열 = 5번째 열, F열 = 6번째 열)
@@ -216,4 +241,5 @@ def saveFile():
     config.new_wb = None
     config.new_ws = None
     config.new_return_ws = None
+
     

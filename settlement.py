@@ -82,3 +82,19 @@ def createSettlement():
     if config.existReturn:
         config.new_settle_ws["D3"].value = f"=SUM('반품'!E2:E1048576)"  # new_return_ws의 5번째 열
     config.new_settle_ws["E3"].value = f"=SUM('{title}'!E2:E1048576)"  # new_ws의 5번째 열
+
+
+    config.new_settle_ws["F3"].value = config.box_tiny
+    config.new_settle_ws["G3"].value = config.returnCount
+    config.new_settle_ws["H3"].value = config.box_small  # 소형
+    config.new_settle_ws["I3"].value = config.box_medium  # 중형
+    config.new_settle_ws["J3"].value = config.box_large1  # 대형1
+    config.new_settle_ws["K3"].value = config.box_large2  # 대형2
+    config.new_settle_ws["L3"].value = config.box_irregular  # 이형
+    config.returnCount = 0 
+    config.box_tiny = 0  #극소
+    config.box_small = 0  # 소형
+    config.box_medium = 0  # 중형
+    config.box_large1 = 0  # 대형1
+    config.box_large2 = 0  # 대형2
+    config.box_irregular = 0  # 이형
