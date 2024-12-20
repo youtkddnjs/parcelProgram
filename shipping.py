@@ -164,7 +164,7 @@ def priceChange():
                 config.box_irregular += 1  # 이형
         else:
             config.price = 9999
-            config.new_return_ws.cell(row=row_idx, column=7).value = config.price
+            config.new_ws.cell(row=row_idx, column=8).value = config.price
             print(f"{row_idx}행의 무게 값 '{e_value}'와 부피 값 '{f_value}'를 모두 만족하는 값이 없습니다.")
         row_idx += 1
     
@@ -198,19 +198,19 @@ def priceChangereturn():
         if returnPrice is not None:
             if returnPrice in [1830, 1950]:
                 config.priceColumn = 3
-                config.box_tiny += 1  # 극소
+                #config.box_tiny += 1  # 극소
                 priceFound = True
             elif returnPrice == 2400:
                 config.priceColumn = 5
-                config.box_small += 1  # 소형
+                #config.box_small += 1  # 소형
                 priceFound = True
             elif returnPrice == 3100:
                 config.priceColumn = 6
-                config.box_medium += 1  # 중형
+                #config.box_medium += 1  # 중형
                 priceFound = True
             elif returnPrice > 3100:
                 config.priceColumn = 7
-                config.box_irregular += 1  # 이형
+                #config.box_irregular += 1  # 이형
                 priceFound = True
         # 값이 없으면 종료
         if returnPrice is None:
